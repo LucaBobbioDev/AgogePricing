@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OrderItemNonZeroQuantityUnitPrice</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+	OR(
+		ISBLANK(Quantity),
+		Quantity = 0
+	),
+	OR(
+		ISBLANK(UnitPrice),
+		UnitPrice = 0
+	)
+)</errorConditionFormula>
+    <errorMessage>The quantity and/or price unit fields cannot be zeroed</errorMessage>
+</ValidationRule>
