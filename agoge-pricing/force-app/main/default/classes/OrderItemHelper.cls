@@ -1,6 +1,4 @@
 public with sharing class OrderItemHelper {
-
-    //Parâmetros de Margem
     public static void findMargin(List<OrderItem> orderItemList){
         IdSets idSets = new IdSets();
 
@@ -87,7 +85,6 @@ public with sharing class OrderItemHelper {
         findSpecificMargin(orderItemList, selectedMargins, ordersMap, productsMap, accountAddressesMap);
     }
 
-    //Parâmetros de Frete
     public static void findFreight(List<OrderItem> orderItemList) {
         IdSets idSets = new IdSets();
 
@@ -165,7 +162,6 @@ public with sharing class OrderItemHelper {
         findSpecificFreight(orderItemList, selectedFreights, ordersMap, productsMap, accountAddressesMap);
     }
 
-    //Parâmetros de Imposto
     public static void findTax(List<OrderItem> orderItemList) {
         IdSets idSets = new IdSets();
 
@@ -236,8 +232,6 @@ public with sharing class OrderItemHelper {
         List<Margin__c> specificMargin = new List<Margin__c>();
         for (Margin__c margin : selectedMargins) {
             Integer score = 0;
-
-            //Categoria - Produto
             if (margin.Product__c != null) {
                 for (OrderItem orderItem : orderItemList) {
                     if (margin.Product__c == orderItem.Product2Id) {
@@ -254,7 +248,6 @@ public with sharing class OrderItemHelper {
                 }
             }
 
-            //Categoria - Cliente
             if (margin.Account__c != null) {
                 for (OrderItem orderItem : orderItemList) {
                     Order order = ordersMap.get(orderItem.OrderId);
@@ -277,7 +270,6 @@ public with sharing class OrderItemHelper {
                 }
             }
 
-            //Categoria - Localidade
             if(margin.City__c != null){
                 for (OrderItem orderItem : orderItemList) {
                     Order order = ordersMap.get(orderItem.OrderId);
@@ -337,7 +329,6 @@ public with sharing class OrderItemHelper {
 
         for(Freight__c freight : selectedFreights){
             Integer score = 0;
-            //Categoria - Produto
             if (freight.Product__c != null) {
                 for (OrderItem orderItem : orderItemList) {
                     if (freight.Product__c == orderItem.Product2Id) {
@@ -351,8 +342,6 @@ public with sharing class OrderItemHelper {
                     }
                 }
             }
-
-            //Categoria - Localidade
             if(freight.City__c != null){
                 for (OrderItem orderItem : orderItemList) {
                     Order order = ordersMap.get(orderItem.OrderId);
@@ -458,7 +447,6 @@ public with sharing class OrderItemHelper {
         }
     }
 
-    //Parâmetros de Pricing
     public static void checkPriceParameters(List<OrderItem> orderItemList){
         for(OrderItem orderItem : orderItemList){
             if(orderItem.ListPrice == null){
@@ -476,7 +464,6 @@ public with sharing class OrderItemHelper {
         }
     }
 
-    //Cálculo de Preço
     public static void calcPrice(List<OrderItem> orderItemList){    
         for (OrderItem orderItem : orderItemList) {
             Decimal productionCost = orderItem.ListPrice != null ? orderItem.ListPrice : 0;
@@ -534,8 +521,6 @@ public with sharing class OrderItemHelper {
         }
     }
     
-    
-    //Inner Class
     public class IdSets {
         public Set<Id> orderIds { get; set; }
         public Set<Id> distributionCenterIds {get; set;}

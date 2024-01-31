@@ -1,5 +1,4 @@
 public with sharing class TaxHelper {
-    
     public static void checkDuplicateTaxes(List<Tax__c> taxList){
         Set<Id> productIds = new Set<Id>();
         Set<Id> distributionCenterIds = new Set<Id>();

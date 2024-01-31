@@ -1,5 +1,4 @@
 public with sharing class MarginHelper {
-    
     public static void checkMarginFields(List<Margin__c> marginsList){
         Set<Id> productIds = new Set<Id>();
         Set<Id> productHierarchyIds = new Set<Id>();
@@ -10,7 +9,6 @@ public with sharing class MarginHelper {
         Set<Id> countryIds = new Set<Id>();
 
         for (Margin__c margin : marginsList) {
-          // Verifica a categoria Produto
             if (margin.Product__c != null && margin.ProductHierarchy__c != null) {
                 margin.addError('Não é permitido preencher ambos os campos de Produto.');
             } else if (margin.Product__c != null) {
@@ -21,7 +19,6 @@ public with sharing class MarginHelper {
                 margin.addError('É obrigatório preencher pelo menos um campo de Produto.');
             }
 
-            // Verifica a categoria Cliente
             if (margin.Account__c != null && margin.AccountGroup__c != null) {
                 margin.addError('Não é permitido preencher ambos os campos de Cliente.');
             } else if (margin.Account__c != null) {
@@ -32,7 +29,6 @@ public with sharing class MarginHelper {
                 margin.addError('É obrigatório preencher pelo menos um campo de Cliente.');
             }
 
-            // Verifica a categoria Localidade
             if (margin.City__c != null) {
                 if (margin.State__c != null || margin.Country__c != null) {
                     margin.addError('Não é permitido preencher o campo City em conjunto com State ou Country.');
@@ -94,19 +90,9 @@ public with sharing class MarginHelper {
             SELECT Id, Name, Product__c, ProductHierarchy__c, Account__c, AccountGroup__c, City__c, State__c, Country__c, Value__c 
             FROM Margin__c 
             WHERE Status__c = 'Approved' 
-            AND (
-                Product__c IN : productIds 
-                OR ProductHierarchy__c IN : productHierarchyIds
-                )    
-            AND (
-                Account__c IN : accountIds 
-                OR AccountGroup__c IN : accountGroupIds
-                )    
-            AND (
-                City__c IN : cityIds    
-                OR State__c IN : stateIds    
-                OR Country__c IN : countryIds
-            )
+            AND (Product__c IN : productIds OR ProductHierarchy__c IN : productHierarchyIds)    
+            AND (Account__c IN : accountIds OR AccountGroup__c IN : accountGroupIds)    
+            AND (City__c IN : cityIds OR State__c IN : stateIds OR Country__c IN : countryIds)
         ];
 
         Set<String> marginSet = new Set<String>();

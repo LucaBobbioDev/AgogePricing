@@ -1,10 +1,8 @@
 public with sharing class MarginTriggerHandler {
-    //Variáveis
-    List<Margin__c> oldRecords {get; set;} //Trigger.old - registros antigos em List
-    List<Margin__c> newRecords {get; set;} //Trigger.new - registros novos em List
-    
-    Map<Id, Margin__c> oldMap {get; set;} //Trigger.oldMap - registros antigos em Map
-    Map<Id, Margin__c> newMap {get; set;} //Trigger.newMap - registros novos em Map
+    List<Margin__c> oldRecords {get; set;} 
+    List<Margin__c> newRecords {get; set;}
+    Map<Id, Margin__c> oldMap {get; set;}
+    Map<Id, Margin__c> newMap {get; set;} 
     
     public MarginTriggerHandler(List<Margin__c> oldRecords, List<Margin__c> newRecords, Map<Id, Margin__c> oldMap,  Map<Id, Margin__c> newMap) {
         this.oldRecords = oldRecords;

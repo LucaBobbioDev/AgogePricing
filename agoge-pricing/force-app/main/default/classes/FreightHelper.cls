@@ -1,5 +1,4 @@
 public with sharing class FreightHelper {
-
     public static void checkFreightFields(List<Freight__c> freightsList){
         Set<Id> productIds = new Set<Id>();
         Set<Id> productHierarchyIds = new Set<Id>();
@@ -8,7 +7,6 @@ public with sharing class FreightHelper {
         Set<Id> countryIds = new Set<Id>();
 
         for (Freight__c freight : freightsList) {
-          // Verifica a categoria Produto
             if (freight.Product__c != null && freight.ProductHierarchy__c != null) {
                 freight.addError('Não é permitido preencher ambos os campos de Produto.');
             } else if (freight.Product__c != null) {
@@ -19,7 +17,6 @@ public with sharing class FreightHelper {
                 freight.addError('É obrigatório preencher pelo menos um campo de Produto.');
             }
 
-            // Verifica a categoria Localidade
             if (freight.City__c != null) {
                 if (freight.State__c != null || freight.Country__c != null) {
                     freight.addError('Não é permitido preencher o campo City em conjunto com State ou Country.');
@@ -73,15 +70,8 @@ public with sharing class FreightHelper {
             SELECT Id, Name, Product__c, ProductHierarchy__c, City__c, State__c, Country__c, Value__c 
             FROM Freight__c 
             WHERE Status__c = 'Approved' 
-            AND (
-                Product__c IN : productIds 
-                OR ProductHierarchy__c IN : productHierarchyIds
-                )     
-            AND (
-                City__c IN : cityIds    
-                OR State__c IN : stateIds    
-                OR Country__c IN : countryIds
-            )
+            AND (Product__c IN : productIds OR ProductHierarchy__c IN : productHierarchyIds)     
+            AND (City__c IN : cityIds OR State__c IN : stateIds OR Country__c IN : countryIds)
         ];
 
         Set<String> freightSet = new Set<String>();
